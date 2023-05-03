@@ -2,11 +2,9 @@ const { expect } = require("chai");
 const sinon = require("sinon");
 const request = require("supertest");
 
-const adminUserManager = require("../managers/adminUser");
 const { HttpStatusCode } = require("../utils/cosnt");
 const patientVerify = require("../middlewares/patientVerify");
 const decodedToken = require("../utils/decodeJWT");
-const app = require("../..");
 
 describe("patientVerify middleware", () => {
   let req, res, next;
@@ -44,27 +42,26 @@ describe("patientVerify middleware", () => {
     expect(next.notCalled).to.be.true;
   });
 
-//   it("should set user in request and call next function when token is valid", async () => {
-//     const decode = { id: "valid-user-id" };
-//     const user = { id: "valid-user-id", name: "John Doe" };
-//     sinon.stub(adminUserManager, "getUserById").resolves(user);
+  //   it("should set user in request and call next function when token is valid", async () => {
+  //     const decode = { id: "valid-user-id" };
+  //     const user = { id: "valid-user-id", name: "John Doe" };
+  //     sinon.stub(adminUserManager, "getUserById").resolves(user);
 
-//     const res = await request(app)
-//     .get("api/turns")
-//     .set("Authorization", "Bearer token-valido");
-    
-//     console.log("🚀 ~ res:", res)
+  //     const res = await request(app)
+  //     .get("api/turns")
+  //     .set("Authorization", "Bearer token-valido");
 
+  //     console.log("🚀 ~ res:", res)
 
-//     req.headers.authorization = "Bearer valid-token";
+  //     req.headers.authorization = "Bearer valid-token";
 
-//     await patientVerify(req, res, next);
+  //     await patientVerify(req, res, next);
 
-//     console.log("req", req);
+  //     console.log("req", req);
 
-//     expect(req.user).to.deep.equal(user);
-//     expect(next.calledOnce).to.be.true;
-//     expect(res.status.notCalled).to.be.true;
-//     expect(res.json.notCalled).to.be.true;
-//   });
+  //     expect(req.user).to.deep.equal(user);
+  //     expect(next.calledOnce).to.be.true;
+  //     expect(res.status.notCalled).to.be.true;
+  //     expect(res.json.notCalled).to.be.true;
+  //   });
 });

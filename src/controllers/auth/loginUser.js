@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const signToken = require("../../utils/signJWT");
-const adminUserManager = require("../../managers/adminUser");
+const adminUserManager = require("../../managers/user");
 const loginUserServices = require("../../services/loginUserServices");
 
 const loginUser = async (req, res) => {

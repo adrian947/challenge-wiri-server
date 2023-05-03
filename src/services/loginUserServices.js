@@ -3,7 +3,6 @@ const loginUserServices = async (
   res,
   { adminUserManager, bcrypt, signToken }
 ) => {
-  console.log("🚀 ~ signToken:", signToken)
   const { email, password } = req.body;
   const userByEmail = await adminUserManager.getUser(email);
 

@@ -31,6 +31,10 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: true,
       },
+      coverage:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

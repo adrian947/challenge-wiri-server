@@ -1,6 +1,11 @@
 const moment = require("moment");
+const createTurnList = require("../utils/createTurnList");
 
-const getTurnsServices = async (req, res, { adminUserManager }) => {
+const getTurnsServices = async (
+  req,
+  res,
+  { adminUserManager, turnManager }
+) => {
   const { id } = req.query;
   const user = await adminUserManager.getUserByPk(id);
 
@@ -8,42 +13,18 @@ const getTurnsServices = async (req, res, { adminUserManager }) => {
     res.status(400).json({ msg: "not a doctor" });
   }
 
-  const startDate = moment().add(1, "day");
-  const endDate = moment().add(1, "month");
-  const days = [];
+  const days = createTurnList(user)
 
-  for (let date = startDate; date.isBefore(endDate); date.add(1, "day")) {
-    const dayOfWeek = date.format("dddd");
-    const day = user.schedule.find((t) => t.day === dayOfWeek);
-    if (day) {
-      const turnsAvailable = day.daily_time.map((h) => {
-        const startTime = moment(date)
-          .set("hour", h.start.split(":")[0])
-          .set("minute", h.start.split(":")[1]);
-        const endTime = moment(date)
-          .set("hour", h.end.split(":")[0])
-          .set("minute", h.end.split(":")[1]);
-        const interval = h.interval;
-        const result = [];
+  const turnNotAvailableList = await turnManager.getTurns({
+    startDate: moment().subtract(1, "day"),
+    endDate: moment().add(1, "month"),
+  });
 
-        for (
-          let time = startTime;
-          time.isBefore(endTime);
-          time.add(interval, "minute")
-        ) {
-          result.push({
-            available: time.format("YYYY-MM-DD HH:mm"),
-            name: user.name,
-            address: user.address,
-          });
-        }
+  const turnAvailableList = days.filter((ef) => {
+    return !turnNotAvailableList.some((e) => e.date === ef.available);
+  });
 
-        return result;
-      });
-      days.push(...turnsAvailable.reduce((a, b) => [...a, ...b], []));
-    }
-  }
-  res.status(200).json(days);
+  res.status(200).json(turnAvailableList);
 };
 
 module.exports = getTurnsServices;

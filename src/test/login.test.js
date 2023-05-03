@@ -1,7 +1,7 @@
 const sinon = require("sinon");
 const chai = require("chai");
 const expect = chai.expect;
-const loginUser = require("../controllers/auth/loginUser");
+
 const loginUserServices = require("../services/loginUserServices");
 
 describe("loginUser", () => {

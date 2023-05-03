@@ -14,6 +14,7 @@ const userDoctor = {
   name: 'Jamaica',
   role: 'doctor',
   address: 'AV Jamaica 166',
+  coverage: true,
   schedule: JSON.stringify([
     {
       day: 'Thursday',
@@ -38,6 +39,7 @@ const userPatient = {
   name: 'Rumania',
   role: 'patient',
   schedule: null,
+  coverage: false,
   createdAt: new Date(),
   updatedAt: new Date(),
 };

@@ -1,40 +1,38 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
+    "Turn",
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      email: {
+      id_doctor: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: "User",
+          key: "id",
+        },
+      },
+      id_patient: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: "User",
+          key: "id",
+        },
+      },
+      date: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      status: {
+        type: DataTypes.ENUM("available", "cancel"),
+        defaultValue: "available"
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      role: {
-        type: DataTypes.ENUM("doctor", "patient"),
-        allowNull: false,
-      },
-      address: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      schedule: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
-      coverage:{
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
+      coverage: {
+        type: DataTypes.INTEGER,
       },
       createdAt: {
         allowNull: false,

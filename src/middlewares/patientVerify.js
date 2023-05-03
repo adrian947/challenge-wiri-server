@@ -1,4 +1,4 @@
-const { getUserById } = require("../managers/adminUser");
+const { getUserById } = require("../managers/user");
 const { HttpStatusCode } = require("../utils/cosnt");
 const decodedToken = require("../utils/decodeJWT");
 
