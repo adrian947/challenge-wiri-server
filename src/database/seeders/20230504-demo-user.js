@@ -44,10 +44,10 @@ const userPatient = {
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('users', [userDoctor, userPatient]);
+    await queryInterface.bulkInsert('Users', [userDoctor, userPatient]);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('users', { id: user.id });
+    await queryInterface.bulkDelete('Users', { id: user.id });
   }
 };

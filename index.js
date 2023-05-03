@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const apiRouter = require('./routes');
-const db = require('./database/models');
+const apiRouter = require('./src/routes');
+const db = require('./src/database/models');
 
 app.use(express.json());
 app.use(cors());
