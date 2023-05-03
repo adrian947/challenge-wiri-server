@@ -7,6 +7,12 @@ module.exports = {
     return user;
   },
 
+  getUserByPk: async (id) => {
+    const user = await User.findByPk(id);
+
+    return user;
+  },
+
   getUserById: async (id) => {
     const user = await User.findOne({
       where: { id },
