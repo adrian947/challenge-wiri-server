@@ -1,3 +1,4 @@
+const { HttpStatusCode } = require("../utils/cosnt");
 const createTurnList = require("../utils/createTurnList");
 
 const generateTurnsServices = async (
@@ -11,11 +12,11 @@ const generateTurnsServices = async (
   const days = createTurnList(user);
 
   if (user.role !== "doctor") {
-    res.status(400).json({ msg: "not a doctor" });
+    res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "not a doctor" });
   }
 
   const createdTurns = await turnManager.createTurns(days);
-  res.status(200).json(createdTurns);
+  res.status(HttpStatusCode.OK).json(createdTurns);
 };
 
 module.exports = generateTurnsServices;

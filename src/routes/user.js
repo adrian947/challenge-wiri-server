@@ -7,7 +7,7 @@ const getMe = require("../controllers/auth/getMe");
 
 const router = Router();
 router.post("/login", loginValidation, loginUser);
-router.get("/get_doctors", getDoctors);
-router.get("/me", patientVerify ,getMe);
+router.get("/get_doctors", patientVerify, getDoctors);
+router.get("/me", patientVerify, getMe);
 
 module.exports = router;

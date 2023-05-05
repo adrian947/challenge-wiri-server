@@ -1,3 +1,5 @@
+const { HttpStatusCode } = require("../utils/cosnt");
+
 const loginUserServices = async (
   req,
   res,
@@ -7,13 +9,13 @@ const loginUserServices = async (
   const userByEmail = await adminUserManager.getUser(email);
 
   if (!userByEmail) {
-    return res.status(400).json({ msg: "incorrect user or password" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "incorrect user or password" });
   }
 
   const comparePassword = bcrypt.compareSync(password, userByEmail.password);
 
   if (!comparePassword) {
-    return res.status(400).json({ msg: "incorrect user or password" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "incorrect user or password" });
   }
 
   const token = signToken(userByEmail.id, userByEmail.role);
@@ -26,6 +28,6 @@ const loginUserServices = async (
     token,
   };
 
-  return res.status(200).json(user);
+  return res.status(HttpStatusCode.OK).json(user);
 };
 module.exports = loginUserServices;

@@ -1,3 +1,5 @@
+const { HttpStatusCode } = require("../utils/cosnt");
+
 const cancelTurnsServices = async (
   req,
   res,
@@ -7,7 +9,7 @@ const cancelTurnsServices = async (
 
   const turnUpdated = await turnManager.cancelTurn(id_turn);
 
-  res.status(200).json(turnUpdated);
+  res.status(HttpStatusCode.OK).json(turnUpdated);
 };
 
 module.exports = cancelTurnsServices

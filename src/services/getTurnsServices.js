@@ -1,5 +1,6 @@
 const moment = require("moment");
 const { Op } = require("sequelize");
+const { HttpStatusCode } = require("../utils/cosnt");
 
 const getTurnsServices = async (
   req,
@@ -28,7 +29,7 @@ const getTurnsServices = async (
 
   const turnsList = await turnManager.getTurns(type);
 
-  res.status(200).json(turnsList);
+  res.status(HttpStatusCode.OK).json(turnsList);
 };
 
 module.exports = getTurnsServices;

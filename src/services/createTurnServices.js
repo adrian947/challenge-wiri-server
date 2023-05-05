@@ -1,4 +1,5 @@
 const moment = require("moment");
+const { HttpStatusCode } = require("../utils/cosnt");
 
 const createTurnServices = async (req, res, { turnManager }) => {
   const { id_turn, id_patient, id_doctor } = req.body;
@@ -9,7 +10,7 @@ const createTurnServices = async (req, res, { turnManager }) => {
   );
 
   if (turnFromPatient) {
-    return res.status(400).json({ msg: "Ya tienes turnos con este doctor" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "Ya tienes turnos con este doctor" });
   }
 
   const turn = await turnManager.getTurnById(id_turn);
@@ -58,7 +59,7 @@ const createTurnServices = async (req, res, { turnManager }) => {
   const findTurnBusy = await turnManager.findTurnsByDate(dateList, hourList);
   if (findTurnBusy.length) {
     turnManager.updatedTurn({ values, turn: turnList[0] });
-    return res.status(200).json({
+    return res.status(HttpStatusCode.OK).json({
       msg: "Solo fue asignado el turno pedido en los proximos meses el turno de este horario se encuentra ocupado",
     });
   }
@@ -67,7 +68,7 @@ const createTurnServices = async (req, res, { turnManager }) => {
     turnManager.updatedTurn({ values, turn });
   });
 
-  return res.status(200).json({ msg: "ok" });
+  return res.status(HttpStatusCode.OK).json({ msg: "Tus turnos fueron cargados correctamente" });
 };
 
 module.exports = createTurnServices;

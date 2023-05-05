@@ -1,8 +1,10 @@
+const { HttpStatusCode } = require("../utils/cosnt");
+
 const getMeServices = async (req, res, { adminUserManager, signToken }) => {
   const userById = await adminUserManager.getUserByPk(req.user.id);
 
   if (!userById) {
-    return res.status(400).json({ msg: "error" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "error" });
   }
 
   const token = signToken(userById.id, userById.role);
@@ -15,7 +17,7 @@ const getMeServices = async (req, res, { adminUserManager, signToken }) => {
     token,
   };
 
-  return res.status(200).json(user);
+  return res.status(HttpStatusCode.OK).json(user);
 };
 
 module.exports = getMeServices;

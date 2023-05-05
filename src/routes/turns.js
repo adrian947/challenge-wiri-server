@@ -5,11 +5,12 @@ const createTurns = require("../controllers/turns/createTurn");
 const cancelTurns = require("../controllers/turns/cancelTurns");
 const { turnCreateValidation } = require("../validators/turnValidation");
 const generateTurns = require("../controllers/turns/generateTurns");
+const doctorAuthorization = require("../middlewares/doctorAuthorization");
 
 const router = Router();
 router.get("/turns", patientVerify, getTurns);
 router.post("/turns", patientVerify, turnCreateValidation, createTurns);
 router.patch("/turns", patientVerify, turnCreateValidation, cancelTurns);
-router.post("/turns-generate", generateTurns);
+router.post("/turns-generate", doctorAuthorization, generateTurns);
 
 module.exports = router;
