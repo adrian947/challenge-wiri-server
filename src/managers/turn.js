@@ -7,16 +7,16 @@ module.exports = {
 
     return createdTurn;
   },
-  getTurns: async (query, doctorId) => {    
+  getTurns: async (type) => {
     const turnsList = await Turn.findAll({
-      where: {
-        date: {
-          [Op.gte]: query,
-        },
-        status: "available",
-        id_doctor: doctorId,
-      },
-      include: [{ model: User, as: "doctor", attributes: ["id", "name", "address"] }],
+      where: type,
+      include: [
+        { model: User, as: "doctor", attributes: ["id", "name", "address"] },
+      ],
+      order: [
+        ["date", "ASC"],
+        ["hour", "ASC"],
+      ],
     });
 
     return turnsList;
@@ -43,6 +43,20 @@ module.exports = {
       where: { date: turn.date, hour: turn.hour },
       returning: true,
     });
+
+    const [turnUp] = updatedTurn[1];
+
+    return turnUp;
+  },
+
+  cancelTurn: async (id) => {
+    const updatedTurn = await Turn.update(
+      { status: "available", id_patient: null },
+      {
+        where: { id },
+        returning: true,
+      }
+    );
 
     const [turnUp] = updatedTurn[1];
 
