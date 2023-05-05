@@ -3,7 +3,7 @@ const sinon = require("sinon");
 const getTurnsServices = require("../services/getTurnsServices");
 
 describe("getTurnsServices", () => {
-  it("llama a getTurns al menos una vez", async () => {
+  it("call getTurns at least once", async () => {
     const req = {
       query: { id: 123 },
     };

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.JSON,
         allowNull: false,
       },
-      coverage:{
+      coverage: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
@@ -48,5 +48,11 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
 
+  User.associate = function (models) {
+    User.hasMany(models.Turn, {
+      foreignKey: 'id',
+      as: 'turns',
+    });
+  };
   return User;
 };

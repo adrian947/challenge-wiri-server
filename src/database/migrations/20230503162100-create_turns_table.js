@@ -16,19 +16,23 @@ module.exports = {
       },
       id_patient: {
         type: Sequelize.UUID,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "Users",
           key: "id",
         },
       },
       date: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      hour: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       status: {
-        type: Sequelize.ENUM("available", "cancel"),
-        defaultValue: "available"
+        type: Sequelize.ENUM("available", "busy", "cancel", "absent doctor"),
+        defaultValue: "available",
       },
       coverage: {
         type: Sequelize.INTEGER,

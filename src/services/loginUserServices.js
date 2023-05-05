@@ -21,6 +21,7 @@ const loginUserServices = async (
   const user = {
     id: userByEmail.id,
     email: userByEmail.email,
+    name: userByEmail.name,
     role: userByEmail.role,
     token,
   };

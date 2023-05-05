@@ -21,4 +21,12 @@ module.exports = {
 
     return user;
   },
+  getAllDoctors: async () => {
+    const doctors = await User.findAll({
+      where: { role: "doctor" },
+      attributes: ["id", "name"],
+    });
+
+    return doctors;
+  },
 };

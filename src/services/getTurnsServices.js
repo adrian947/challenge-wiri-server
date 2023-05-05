@@ -1,5 +1,6 @@
 const moment = require("moment");
 const createTurnList = require("../utils/createTurnList");
+const turnManager = require("../managers/turn");
 
 const getTurnsServices = async (
   req,
@@ -13,18 +14,25 @@ const getTurnsServices = async (
     res.status(400).json({ msg: "not a doctor" });
   }
 
-  const days = createTurnList(user)
+  // const days = createTurnList(user)
+  // console.log("🚀 ~ days:", days)
 
-  const turnNotAvailableList = await turnManager.getTurns({
-    startDate: moment().subtract(1, "day"),
-    endDate: moment().add(1, "month"),
-  });
+  //TODO: como vamos a crear los turnos?
+  // const createTuns = await turnManager.createTurns(days)
 
-  const turnAvailableList = days.filter((ef) => {
-    return !turnNotAvailableList.some((e) => e.date === ef.available);
-  });
+  const now = moment().format("YYYY-MM-DD");
+  const turnsList = await turnManager.getTurns(now, user.id);
 
-  res.status(200).json(turnAvailableList);
+  // const turnNotAvailableList = await turnManager.getTurns({
+  //   startDate: moment().subtract(1, "day"),
+  //   endDate: moment().add(1, "month"),
+  // });
+
+  // const turnAvailableList = days.filter((ef) => {
+  //   return !turnNotAvailableList.some((e) => e.date === ef.available);
+  // });
+
+  res.status(200).json(turnsList);
 };
 
 module.exports = getTurnsServices;

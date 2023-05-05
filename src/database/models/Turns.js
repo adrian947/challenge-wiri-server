@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
+  const Turn = sequelize.define(
     "Turn",
     {
       id: {
@@ -24,12 +24,16 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      hour: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM("available", "cancel"),
-        defaultValue: "available"
+        type: DataTypes.ENUM("available", "busy", "cancel", "absent doctor"),
+        defaultValue: "available",
       },
       coverage: {
         type: DataTypes.INTEGER,
@@ -46,5 +50,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
 
-  return User;
+  Turn.associate = function(models) {
+    Turn.belongsTo(models.User, { as: 'doctor', foreignKey: 'id_doctor', });
+  };
+
+  return Turn;
 };

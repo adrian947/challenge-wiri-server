@@ -11,22 +11,47 @@ describe("createTurnServices", () => {
         address: "AV Jamaica 166",
         id_doctor: "123",
         id_patient: "456",
+        repeat: 2,
       },
     };
     const res = {
       status: sinon.stub().returnsThis(),
       json: sinon.stub(),
     };
+
+    const mockArray = [
+      {
+        date: "2023-05-06 17:35",
+        name: "John Doe",
+        address: "AV Jamaica 166",
+        id_doctor: "123",
+        id_patient: "456",
+      },
+      {
+        date: "2023-06-06 17:35",
+        name: "John Doe",
+        address: "AV Jamaica 166",
+        id_doctor: "123",
+        id_patient: "456",
+      },
+      {
+        date: "2023-07-06 17:35",
+        name: "John Doe",
+        address: "AV Jamaica 166",
+        id_doctor: "123",
+        id_patient: "456",
+      },
+    ];
+
     const turnManager = {
-      createTurn: sinon.stub().returns({ id: "789", ...req.body }),
+      createTurn: sinon.stub().returns(mockArray),
     };
 
-    const options = { turnManager };
-
-    await createTurnServices(req, res, options);
+    await createTurnServices(req, res, { turnManager });
 
     expect(res.status.calledWith(200)).to.be.true;
-    expect(res.json.calledWith({ id: "789", ...req.body })).to.be.true;
-    expect(turnManager.createTurn.calledWith(req.body)).to.be.true;
+    expect(res.json.args[0][0]).to.equal(mockArray);
+    expect(turnManager.createTurn.calledOnce).to.be.true;
+    expect(turnManager.createTurn.firstCall.args[0]).to.deep.equal(mockArray);
   });
 });

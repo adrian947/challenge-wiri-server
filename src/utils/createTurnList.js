@@ -2,7 +2,7 @@ const moment = require("moment");
 
 const createTurnList = (user) => {
   const startDate = moment().add(1, "day");
-  const endDate = moment().add(1, "month");
+  const endDate = moment().add(3, "month");
   const days = [];
 
   for (let date = startDate; date.isBefore(endDate); date.add(1, "day")) {
@@ -25,9 +25,10 @@ const createTurnList = (user) => {
           time.add(interval, "minute")
         ) {
           result.push({
-            available: time.format("YYYY-MM-DD HH:mm"),
-            name: user.name,
-            address: user.address,
+            id_doctor: user.id,
+            date: time.format("YYYY-MM-DD"),
+            hour: time.format("HH:mm"),
+            coverage: user.coverage ? null : 1500 
           });
         }
 
