@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      photo_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       role: {
         type: DataTypes.ENUM("doctor", "patient"),
         allowNull: false,

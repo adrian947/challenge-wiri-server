@@ -31,6 +31,10 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: true,
       },
+      photo_url: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       coverage:{
         type: Sequelize.BOOLEAN,
         defaultValue: true,

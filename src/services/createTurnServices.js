@@ -1,16 +1,24 @@
 const moment = require("moment");
 
 const createTurnServices = async (req, res, { turnManager }) => {
-  const { id_turn, id_patient } = req.body;
+  const { id_turn, id_patient, id_doctor } = req.body;
+
+  const turnFromPatient = await turnManager.getTurnByIdPatientAndDoctor(
+    id_doctor,
+    id_patient
+  );
+
+  if (turnFromPatient) {
+    return res.status(400).json({ msg: "Ya tienes turnos con este doctor" });
+  }
 
   const turn = await turnManager.getTurnById(id_turn);
 
-  const initialDate = moment(turn.date); // initial date (Thursday of the second week)
-  const dayOfWeek = initialDate.day(); // day of the week of the initial date (in this case, 4 for Thursday)
+  const initialDate = moment(turn.date);
+  const dayOfWeek = initialDate.day();
   const weekOfMonth =
-    initialDate.week() - moment(initialDate).startOf("month").week() + 1; // week number of the initial date (in this case, 2)
+    initialDate.week() - moment(initialDate).startOf("month").week() + 1;
 
-  // Get the date of the task corresponding to the current month
   const currentMonthTaskDate = initialDate
     .startOf("month")
     .add(weekOfMonth - 1, "weeks")
@@ -24,7 +32,7 @@ const createTurnServices = async (req, res, { turnManager }) => {
 
   // To replicate the task in subsequent months:
   for (let i = 1; i <= 3; i++) {
-    // iterate through the next 11 months (the task for the current month has already been shown)
+    // iterate through the next 3 months (the task for the current month has already been shown)
     const nextMonth = initialDate.clone().add(i, "months"); // date of the next month
 
     // Find the date of the same day of the week in the next month

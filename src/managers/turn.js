@@ -1,4 +1,4 @@
-const { Op, Sequelize } = require("sequelize");
+const { Op } = require("sequelize");
 const { Turn, User } = require("../database/models");
 
 module.exports = {
@@ -11,7 +11,11 @@ module.exports = {
     const turnsList = await Turn.findAll({
       where: type,
       include: [
-        { model: User, as: "doctor", attributes: ["id", "name", "address"] },
+        {
+          model: User,
+          as: "doctor",
+          attributes: ["id", "name", "address", "coverage", "photo_url"],
+        },
       ],
       order: [
         ["date", "ASC"],
@@ -36,6 +40,16 @@ module.exports = {
       },
     });
     return updatedTurn;
+  },
+
+  getTurnByIdPatientAndDoctor: async (doctorId, PatientId) => {
+    const turn = await Turn.findOne({
+      where: {
+        id_doctor: doctorId,
+        id_patient: PatientId,
+      },
+    });
+    return turn;
   },
 
   updatedTurn: async ({ values, turn }) => {

@@ -8,37 +8,29 @@ const hashPassword = (password) => {
 };
 
 const userDoctor = {
-  id: "5e73947a-87b5-4f23-8d8b-79e9e1a7c476",
-  email: "jamaica@jamaica.com",
+  id: "ae940f2e-6723-4e2d-912a-73d46f413c32",
+  email: "japon@japon.com",
   password: hashPassword("holamundo"),
-  name: "Jamaica",
+  name: "Japon",
   role: "doctor",
-  address: "AV Jamaica 166",
-  coverage: true,
-  photo_url: "https://randomuser.me/api/portraits/men/16.jpg",
+  address: "AV Japon 166",
+  coverage: false,
   schedule: JSON.stringify([
     {
-      day: "Thursday",
-      daily_time: [
-        { start: "10:00", end: "13:00", interval: 20 },
-        { start: "14:30", end: "17:00", interval: 20 },
-      ],
-    },
-    {
-      day: "Saturday",
-      daily_time: [{ start: "16:15", end: "20:00", interval: 40 }],
+      day: "Monday",
+      daily_time: [{ start: "10:00", end: "18:00", interval: 60 }],
     },
   ]),
-
+  photo_url: 'https://randomuser.me/api/portraits/men/92.jpg',
   createdAt: new Date(),
   updatedAt: new Date(),
 };
 
 const userPatient = {
-  id: "b8f3bf3e-6efc-4b3d-8da4-4f9e0d4c4c52",
-  email: "rumania@rumania.com",
+  id: "6a7f6dc1-c6b9-4b4e-8dd4-4c84a56f23ad",
+  email: "italia@italia.com",
   password: hashPassword("holamundo"),
-  name: "Rumania",
+  name: "Italia",
   role: "patient",
   schedule: null,
   coverage: false,
