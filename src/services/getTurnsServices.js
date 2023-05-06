@@ -10,10 +10,10 @@ const getTurnsServices = async (
   const { id } = req.query;  
   const user = await adminUserManager.getUserByPk(id);
 
-  let type = {};
+  let query = {};
   const now = moment().format("YYYY-MM-DD");
   if (user.role === "doctor") {
-    type = {
+    query = {
       date: {
         [Op.gte]: now,
       },
@@ -21,13 +21,13 @@ const getTurnsServices = async (
       id_doctor: user.id,
     };
   } else {
-    type = {
+    query = {
       status: "busy",
       id_patient: user.id,
     };
   }
 
-  const turnsList = await turnManager.getTurns(type);
+  const turnsList = await turnManager.getTurnsForPatient(query);
 
   res.status(HttpStatusCode.OK).json(turnsList);
 };

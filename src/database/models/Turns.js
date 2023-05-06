@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Turn.associate = function(models) {
     Turn.belongsTo(models.User, { as: 'doctor', foreignKey: 'id_doctor', });
+    Turn.belongsTo(models.User, { as: 'patient', foreignKey: 'id_patient', });
   };
 
   return Turn;

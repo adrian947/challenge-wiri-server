@@ -2,7 +2,7 @@ const { getUserById } = require("../managers/user");
 const { HttpStatusCode } = require("../utils/cosnt");
 const decodedToken = require("../utils/decodeJWT");
 
-const patientVerify = async (req, res, next) => {
+const patientAuthorization = async (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -29,4 +29,4 @@ const patientVerify = async (req, res, next) => {
   res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "token not sent" });
 };
 
-module.exports = patientVerify;
+module.exports = patientAuthorization;

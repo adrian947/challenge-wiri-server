@@ -13,7 +13,7 @@ const doctorAuthorization = async (req, res, next) => {
 
     req.user = await getUserById(decode.id);
 
-    if (!req.adminUser || req.adminUser.role !== "doctor") {
+    if (!req.user || req.user.role !== "doctor") {
       return res
         .status(HttpStatusCode.BAD_REQUEST)
         .json({ msg: "invalid token" });

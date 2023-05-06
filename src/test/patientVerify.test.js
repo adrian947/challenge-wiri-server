@@ -3,10 +3,10 @@ const sinon = require("sinon");
 const request = require("supertest");
 
 const { HttpStatusCode } = require("../utils/cosnt");
-const patientVerify = require("../middlewares/patientVerify");
+const patientAuthorization = require("../middlewares/patientAuthorization");
 const decodedToken = require("../utils/decodeJWT");
 
-describe("patientVerify middleware", () => {
+describe("patientAuthorization middleware", () => {
   let req, res, next;
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe("patientVerify middleware", () => {
   });
 
   it("should return status 400 and error message when token is not sent", async () => {
-    await patientVerify(req, res, next);
+    await patientAuthorization(req, res, next);
 
     expect(res.status.calledWith(HttpStatusCode.BAD_REQUEST)).to.be.true;
     expect(res.json.calledWith({ msg: "token not sent" })).to.be.true;
@@ -35,7 +35,7 @@ describe("patientVerify middleware", () => {
   it("should return status 400 and error message when token is invalid", async () => {
     req.headers.authorization = "Bearer invalid-token";
 
-    await patientVerify(req, res, next);
+    await patientAuthorization(req, res, next);
 
     expect(res.status.calledWith(HttpStatusCode.BAD_REQUEST)).to.be.true;
     expect(res.json.calledWith({ msg: "invalid token" })).to.be.true;
@@ -55,7 +55,7 @@ describe("patientVerify middleware", () => {
 
   //     req.headers.authorization = "Bearer valid-token";
 
-  //     await patientVerify(req, res, next);
+  //     await patientAuthorization(req, res, next);
 
   //     console.log("req", req);
 

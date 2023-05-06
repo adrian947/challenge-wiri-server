@@ -1,12 +1,14 @@
 const adminUserManager = require("../../managers/user");
-
 const getDoctorsServices = require("../../services/getDoctorsServices");
+const { HttpStatusCode } = require("../../utils/cosnt");
 
 const getDoctors = async (req, res) => {
   try {
     getDoctorsServices(req, res, { adminUserManager });
   } catch (error) {
-    console.log("🚀 ~ error:", error);
+    res
+    .status(HttpStatusCode.INTERNAL_SERVER)
+    .json({ message: "Ha ocurrido un error inesperado" });
   }
 };
 

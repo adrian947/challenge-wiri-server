@@ -7,14 +7,53 @@ module.exports = {
 
     return createdTurn;
   },
-  getTurns: async (type) => {
+
+  getTurnsForPatient: async (query) => {
     const turnsList = await Turn.findAll({
-      where: type,
+      where: query,
       include: [
         {
           model: User,
           as: "doctor",
           attributes: ["id", "name", "address", "coverage", "photo_url"],
+        },
+      ],
+      order: [
+        ["date", "ASC"],
+        ["hour", "ASC"],
+      ],
+    });
+
+    return turnsList;
+  },
+
+  getTurnsForDoctor: async ({ id_doctor, start_date, end_date }) => {
+    const whereQuery = {};
+    if (start_date && end_date) {
+      whereQuery.date = {
+        [Op.between]: [start_date, end_date],
+      };
+    }
+    if (start_date && !end_date) {
+      whereQuery.date = {
+        [Op.gte]: start_date,
+      };
+    }
+    if (!start_date && end_date) {
+      whereQuery.date = {
+        [Op.lte]: end_date,
+      };
+    }
+    whereQuery.id_doctor = id_doctor;
+    whereQuery.status = "busy";
+    
+    const turnsList = await Turn.findAll({
+      where: whereQuery,
+      include: [
+        {
+          model: User,
+          as: "patient",
+          attributes: ["id", "name", "photo_url"],
         },
       ],
       order: [
