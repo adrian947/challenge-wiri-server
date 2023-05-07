@@ -30,6 +30,7 @@ const loginUserServices = async (
       email: userByEmail.email,
       name: userByEmail.name,
       role: userByEmail.role,
+      coverage: userByEmail.coverage,
       token,
     };
 

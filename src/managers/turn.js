@@ -53,7 +53,7 @@ module.exports = {
         {
           model: User,
           as: "patient",
-          attributes: ["id", "name", "photo_url"],
+          attributes: ["id", "name", "photo_url", "coverage"],
         },
       ],
       order: [
