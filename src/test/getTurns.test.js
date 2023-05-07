@@ -60,6 +60,7 @@ describe("getTurnsServices", () => {
 
   it("should return a list of turns for a patient", async () => {
     // Arrange
+    const now = moment().format("YYYY-MM-DD");
     const user = {
       id: "1",
       role: "patient",
@@ -68,6 +69,9 @@ describe("getTurnsServices", () => {
     const expectedQuery = {
       status: "busy",
       id_patient: user.id,
+      date: {
+        [Op.gte]: now,
+      },
     };
     const expectedTurnsList = [{ id: "2", status: "busy" }];
     turnManager.getTurnsForPatient.resolves(expectedTurnsList);
