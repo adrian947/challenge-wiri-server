@@ -81,11 +81,14 @@ module.exports = {
     return updatedTurn;
   },
 
-  getTurnByIdPatientAndDoctor: async (doctorId, PatientId) => {
+  getTurnByIdPatientAndDoctor: async (doctorId, patientId, now) => {
     const turn = await Turn.findOne({
       where: {
         id_doctor: doctorId,
-        id_patient: PatientId,
+        id_patient: patientId,
+        date: {
+          [Op.gte]: now,
+        },
       },
     });
     return turn;

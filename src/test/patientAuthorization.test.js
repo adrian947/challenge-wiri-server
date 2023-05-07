@@ -2,7 +2,6 @@ const sinon = require("sinon");
 const expect = require("chai").expect;
 const patientAuthorization = require("../middlewares/patientAuthorization");
 const { HttpStatusCode } = require("../utils/cosnt");
-const decodedToken = require("../utils/decodeJWT");
 
 describe("patientAuthorization middleware", () => {
   it("should return error response if token is invalid", async () => {

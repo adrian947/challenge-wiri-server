@@ -1,11 +1,7 @@
 const sinon = require("sinon");
 const { expect } = require("chai");
 const reserveTurnServices = require("../services/reserveTurnServices");
-
-const HttpStatusCode = {
-  OK: 200,
-  BAD_REQUEST: 400,
-};
+const { HttpStatusCode } = require("../utils/cosnt");
 
 describe("reserveTurnServices", () => {
   const req = {

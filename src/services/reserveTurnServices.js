@@ -1,13 +1,16 @@
+const moment = require("moment");
 const { HttpStatusCode } = require("../utils/cosnt");
 const reserveTurnGenerator = require("../utils/reserveTurnGenerator");
 
 const reserveTurnServices = async (req, res, { turnManager }) => {
   const { id_turn, id_patient, id_doctor } = req.body;
 
+  const now = moment();
   try {
     const turnFromPatient = await turnManager.getTurnByIdPatientAndDoctor(
       id_doctor,
-      id_patient
+      id_patient,
+      now
     );
 
     if (turnFromPatient) {

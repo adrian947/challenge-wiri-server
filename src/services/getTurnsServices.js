@@ -25,6 +25,9 @@ const getTurnsServices = async (
       query = {
         status: "busy",
         id_patient: user.id,
+        date: {
+          [Op.gte]: now,
+        },
       };
     }
 
