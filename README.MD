@@ -1,6 +1,6 @@
 # WIRI BACKEND
 
-Tabla de contenido
+Table of contents
 
 - [WIRI BACKEND](#wiri-backend)
   - [Get Started](#get-started)
@@ -18,6 +18,7 @@ Tabla de contenido
 $ npm install
 ```
 
+**Run project**
 ```terminal
 $ npm run dev
 ```
