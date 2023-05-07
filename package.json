@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha --recursive --exit src/test/*",
     "dev": "nodemon index.js",
+    "start": "node index.js",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
     "coverage": "nyc --reporter=text mocha src/test/**/*.js"
