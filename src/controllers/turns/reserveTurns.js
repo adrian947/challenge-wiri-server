@@ -1,10 +1,10 @@
 const turnManager = require("../../managers/turn");
-const createTurnsServices = require("../../services/createTurnServices");
+const reserveTurnServices = require("../../services/reserveTurnServices");
 const { HttpStatusCode } = require("../../utils/cosnt");
 
-const createTurns = async (req, res) => {
+const reserveTurns = async (req, res) => {
   try {
-    createTurnsServices(req, res, { turnManager });
+    await reserveTurnServices(req, res, { turnManager });
   } catch (error) {
     res
       .status(HttpStatusCode.INTERNAL_SERVER)
@@ -12,4 +12,4 @@ const createTurns = async (req, res) => {
   }
 };
 
-module.exports = createTurns;
+module.exports = reserveTurns;

@@ -1,6 +1,6 @@
 const { getUserById } = require("../managers/user");
 const { HttpStatusCode } = require("../utils/cosnt");
-const decodedToken = require("../utils/decodeJWT");
+const { decodedToken } = require("../utils/decodeJWT");
 
 const patientAuthorization = async (req, res, next) => {
   if (
@@ -8,6 +8,7 @@ const patientAuthorization = async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     const token = req.headers.authorization.split(" ")[1];
+
     try {
       const decode = decodedToken(token);
       req.user = await getUserById(decode.id);

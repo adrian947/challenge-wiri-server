@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const { expect } = require("chai");
 const createTurnList = require("../utils/createTurnList");
 
 describe("createTurnList", () => {
@@ -38,6 +38,11 @@ describe("createTurnList", () => {
     const actualTurns = createTurnList(user);
     expect(actualTurns).to.be.an("array");
     expect(actualTurns).to.not.be.empty;
-    expect(actualTurns[0]).to.have.all.keys("available", "name", "address");
+    expect(actualTurns[0]).to.have.all.keys(
+      "coverage",
+      "date",
+      "hour",
+      "id_doctor"
+    );
   });
 });

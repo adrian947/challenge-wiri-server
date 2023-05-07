@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-exports.turnCreateValidation = [
+exports.turnReserveValidation = [
   body("id_turn").isUUID().withMessage("Doctor ID must be a valid UUID"),
   body("id_patient").isUUID().withMessage("Patient ID must be a valid UUID"),
 

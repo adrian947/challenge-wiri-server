@@ -4,7 +4,7 @@ const { HttpStatusCode } = require("../../utils/cosnt");
 
 const getDoctors = async (req, res) => {
   try {
-    getDoctorsServices(req, res, { adminUserManager });
+   await getDoctorsServices(req, res, { adminUserManager });
   } catch (error) {
     res
     .status(HttpStatusCode.INTERNAL_SERVER)

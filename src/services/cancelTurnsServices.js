@@ -1,15 +1,21 @@
 const { HttpStatusCode } = require("../utils/cosnt");
 
-const cancelTurnsServices = async (
-  req,
-  res,
-  { adminUserManager, turnManager }
-) => {
-  const { id_user, id_turn } = req.body;
+const cancelTurnsServices = async (req, res, { turnManager }) => {
+  const { id_turn } = req.body;
 
-  const turnUpdated = await turnManager.cancelTurn(id_turn);
+  try {
+    const turnUpdated = await turnManager.cancelTurn(id_turn);
 
-  res.status(HttpStatusCode.OK).json(turnUpdated);
+    if (!turnUpdated) {
+      return res
+        .status(HttpStatusCode.NOT_FOUND)
+        .json({ message: "El turno no existe" });
+    }
+    
+    res.status(HttpStatusCode.OK).json(turnUpdated);
+  } catch (error) {
+    throw error;
+  }
 };
 
-module.exports = cancelTurnsServices
+module.exports = cancelTurnsServices;

@@ -5,7 +5,7 @@ const { HttpStatusCode } = require("../../utils/cosnt");
 
 const getTurns = async (req, res) => {
   try {
-    getTurnsServices(req, res, { adminUserManager, turnManager });
+    await getTurnsServices(req, res, { adminUserManager, turnManager });
   } catch (error) {
     res
       .status(HttpStatusCode.INTERNAL_SERVER)

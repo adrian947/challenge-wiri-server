@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const loginUser = require("../controllers/auth/loginUser");
 const { loginValidation } = require("../validators/loginValidation");
-const getDoctors = require("../controllers/users/getDoctors");
+const getDoctors = require("../controllers/turns/getDoctors");
 const patientAuthorization = require("../middlewares/patientAuthorization");
 const getMe = require("../controllers/auth/getMe");
 

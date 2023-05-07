@@ -7,29 +7,33 @@ const getTurnsServices = async (
   res,
   { adminUserManager, turnManager }
 ) => {
-  const { id } = req.query;  
-  const user = await adminUserManager.getUserByPk(id);
+  const { id } = req.query;
+  try {
+    const user = await adminUserManager.getUserByPk(id);
 
-  let query = {};
-  const now = moment().format("YYYY-MM-DD");
-  if (user.role === "doctor") {
-    query = {
-      date: {
-        [Op.gte]: now,
-      },
-      status: "available",
-      id_doctor: user.id,
-    };
-  } else {
-    query = {
-      status: "busy",
-      id_patient: user.id,
-    };
+    let query = {};
+    const now = moment().format("YYYY-MM-DD");
+    if (user.role === "doctor") {
+      query = {
+        date: {
+          [Op.gte]: now,
+        },
+        status: "available",
+        id_doctor: user.id,
+      };
+    } else {
+      query = {
+        status: "busy",
+        id_patient: user.id,
+      };
+    }
+
+    const turnsList = await turnManager.getTurnsForPatient(query);
+
+    res.status(HttpStatusCode.OK).json(turnsList);
+  } catch (error) {
+    throw error;
   }
-
-  const turnsList = await turnManager.getTurnsForPatient(query);
-
-  res.status(HttpStatusCode.OK).json(turnsList);
 };
 
 module.exports = getTurnsServices;

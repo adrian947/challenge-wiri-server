@@ -8,10 +8,13 @@ const getTurnsForDoctorServices = async (req, res, { turnManager }) => {
     start_date,
     end_date,
   };
+  try {
+    const turnsList = await turnManager.getTurnsForDoctor(query);
 
-  const turnsList = await turnManager.getTurnsForDoctor(query);
-
-  return res.status(HttpStatusCode.OK).json(turnsList);
+    return res.status(HttpStatusCode.OK).json(turnsList);
+  } catch (error) {
+    throw error;
+  }
 };
 
 module.exports = getTurnsForDoctorServices;

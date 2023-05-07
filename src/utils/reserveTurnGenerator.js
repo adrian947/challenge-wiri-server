@@ -1,20 +1,6 @@
 const moment = require("moment");
-const { HttpStatusCode } = require("../utils/cosnt");
 
-const createTurnServices = async (req, res, { turnManager }) => {
-  const { id_turn, id_patient, id_doctor } = req.body;
-
-  const turnFromPatient = await turnManager.getTurnByIdPatientAndDoctor(
-    id_doctor,
-    id_patient
-  );
-
-  if (turnFromPatient) {
-    return res.status(HttpStatusCode.BAD_REQUEST).json({ msg: "Ya tienes turnos con este doctor" });
-  }
-
-  const turn = await turnManager.getTurnById(id_turn);
-
+const reserveTurnGenerator = (turn) => {
   const initialDate = moment(turn.date);
   const dayOfWeek = initialDate.day();
   const weekOfMonth =
@@ -51,24 +37,7 @@ const createTurnServices = async (req, res, { turnManager }) => {
     hourList.push(turn.hour);
   }
 
-  const values = {
-    id_patient,
-    status: "busy",
-  };
-
-  const findTurnBusy = await turnManager.findTurnsByDate(dateList, hourList);
-  if (findTurnBusy.length) {
-    turnManager.updatedTurn({ values, turn: turnList[0] });
-    return res.status(HttpStatusCode.OK).json({
-      msg: "Solo fue asignado el turno pedido en los proximos meses el turno de este horario se encuentra ocupado",
-    });
-  }
-
-  turnList.forEach((turn) => {
-    turnManager.updatedTurn({ values, turn });
-  });
-
-  return res.status(HttpStatusCode.OK).json({ msg: "Tus turnos fueron cargados correctamente" });
+  return {turnList, dateList, hourList };
 };
 
-module.exports = createTurnServices;
+module.exports = reserveTurnGenerator;

@@ -1,43 +1,84 @@
-const { expect } = require("chai");
 const sinon = require("sinon");
+const { expect } = require("chai");
+const moment = require("moment");
+const { HttpStatusCode } = require("../utils/cosnt");
+const { Op } = require("sequelize");
 const getTurnsServices = require("../services/getTurnsServices");
 
 describe("getTurnsServices", () => {
-  it("call getTurns at least once", async () => {
-    const req = {
-      query: { id: 123 },
+  let req;
+  let res;
+  let adminUserManager;
+  let turnManager;
+  beforeEach(() => {
+    req = {
+      query: { id: "1" },
     };
-    const res = {
-      status: sinon.stub().returnsThis(),
+    res = {
+      status: sinon.stub(),
+    };
+    adminUserManager = {
+      getUserByPk: sinon.stub(),
+    };
+    turnManager = {
+      getTurnsForPatient: sinon.stub(),
+    };
+    res.status.returns({
       json: sinon.stub(),
-    };
-    const adminUserManager = {
-      getUserByPk: sinon.stub().returns({
-        role: "doctor",
-        schedule: [
-          {
-            day: "Monday",
-            daily_time: [{ start: "09:00", end: "17:00", interval: 30 }],
-          },
-        ],
-      }),
-    };
-    const turnManager = {
-      getTurns: sinon.stub().returns([
-        {
-          available: "2023-05-04 10:20",
-          name: "Jamaica",
-          address: "AV Jamaica 166",
-        },
-        {
-          available: "2023-05-04 10:40",
-          name: "Jamaica",
-          address: "AV Jamaica 166",
-        },
-      ]),
-    };
+    });
+  });
 
+  it("should return a list of turns for a doctor", async () => {
+    // Arrange
+    const now = moment().format("YYYY-MM-DD");
+    const user = {
+      id: "1",
+      role: "doctor",
+    };
+    adminUserManager.getUserByPk.resolves(user);
+    const expectedQuery = {
+      date: {
+        [Op.gte]: now,
+      },
+      status: "available",
+      id_doctor: user.id,
+    };
+    const expectedTurnsList = [{ id: "1", status: "available" }];
+    turnManager.getTurnsForPatient.resolves(expectedTurnsList);
+
+    // Act
     await getTurnsServices(req, res, { adminUserManager, turnManager });
-    sinon.assert.calledOnce(turnManager.getTurns);
+    
+    // Assert
+    expect(adminUserManager.getUserByPk.calledOnceWith(req.query.id)).to.be
+      .true;
+    expect(turnManager.getTurnsForPatient.calledOnceWith(expectedQuery)).to.be
+      .true;
+    expect(res.status.calledOnceWith(HttpStatusCode.OK)).to.be.true;
+    expect(res.status().json.calledOnceWith(expectedTurnsList)).to.be.true;
+  });
+
+  it("should return a list of turns for a patient", async () => {
+    // Arrange
+    const user = {
+      id: "1",
+      role: "patient",
+    };
+    adminUserManager.getUserByPk.resolves(user);
+    const expectedQuery = {
+      status: "busy",
+      id_patient: user.id,
+    };
+    const expectedTurnsList = [{ id: "2", status: "busy" }];
+    turnManager.getTurnsForPatient.resolves(expectedTurnsList);
+    
+    await getTurnsServices(req, res, { adminUserManager, turnManager });
+    
+    expect(adminUserManager.getUserByPk.calledOnceWith(req.query.id)).to.be
+      .true;
+    expect(turnManager.getTurnsForPatient.calledOnceWith(expectedQuery)).to.be
+      .true;
+    expect(res.status.calledOnceWith(HttpStatusCode.OK)).to.be.true;
+    expect(res.status().json.calledOnceWith(expectedTurnsList)).to.be.true;
   });
 });

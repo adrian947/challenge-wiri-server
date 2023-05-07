@@ -46,7 +46,7 @@ module.exports = {
     }
     whereQuery.id_doctor = id_doctor;
     whereQuery.status = "busy";
-    
+
     const turnsList = await Turn.findAll({
       where: whereQuery,
       include: [

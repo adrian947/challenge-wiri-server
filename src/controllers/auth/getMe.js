@@ -5,7 +5,7 @@ const { HttpStatusCode } = require("../../utils/cosnt");
 
 const getMe = async (req, res) => {
   try {
-    getMeServices(req, res, { adminUserManager, signToken });
+    await getMeServices(req, res, { adminUserManager, signToken });
   } catch (error) {
     res
       .status(HttpStatusCode.INTERNAL_SERVER)
