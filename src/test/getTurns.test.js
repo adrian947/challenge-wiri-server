@@ -28,8 +28,7 @@ describe("getTurnsServices", () => {
     });
   });
 
-  it("should return a list of turns for a doctor", async () => {
-    // Arrange
+  it("should return a list of turns for a doctor", async () => {    
     const now = moment().format("YYYY-MM-DD");
     const user = {
       id: "1",
@@ -45,11 +44,9 @@ describe("getTurnsServices", () => {
     };
     const expectedTurnsList = [{ id: "1", status: "available" }];
     turnManager.getTurnsForPatient.resolves(expectedTurnsList);
-
-    // Act
-    await getTurnsServices(req, res, { adminUserManager, turnManager });
     
-    // Assert
+    await getTurnsServices(req, res, { adminUserManager, turnManager });
+        
     expect(adminUserManager.getUserByPk.calledOnceWith(req.query.id)).to.be
       .true;
     expect(turnManager.getTurnsForPatient.calledOnceWith(expectedQuery)).to.be
@@ -58,8 +55,7 @@ describe("getTurnsServices", () => {
     expect(res.status().json.calledOnceWith(expectedTurnsList)).to.be.true;
   });
 
-  it("should return a list of turns for a patient", async () => {
-    // Arrange
+  it("should return a list of turns for a patient", async () => {    
     const now = moment().format("YYYY-MM-DD");
     const user = {
       id: "1",
